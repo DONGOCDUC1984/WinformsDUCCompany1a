@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WinformsDUCCompany1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="DepartmentId" />
+    </Key>
+    <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Employees" Relationship="Self.FK__Employees__Depar__5070F446" FromRole="Departments" ToRole="Employees" />
+    <NavigationProperty Name="Positions" Relationship="Self.FK__Positions__Depar__4D94879B" FromRole="Departments" ToRole="Positions" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="EmpId" />
+    </Key>
+    <Property Name="EmpId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EmpDOB" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="EmpGender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EmpImagePath" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="EmpAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+    <Property Name="PositionId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Department" Relationship="Self.FK__Employees__Depar__5070F446" FromRole="Employees" ToRole="Departments" />
+    <NavigationProperty Name="Position" Relationship="Self.FK__Employees__Posit__5165187F" FromRole="Employees" ToRole="Positions" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="PositionId" />
+    </Key>
+    <Property Name="PositionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PositionName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+    <Property Name="DailySalary" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Department" Relationship="Self.FK__Positions__Depar__4D94879B" FromRole="Positions" ToRole="Departments" />
+    <NavigationProperty Name="Employees" Relationship="Self.FK__Employees__Posit__5165187F" FromRole="Positions" ToRole="Employees" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserPassword" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserRole" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Employees__Depar__5070F446">
+    <End Role="Departments" Type="Self.Department" Multiplicity="1" />
+    <End Role="Employees" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="DepartmentId" />
+      </Principal>
+      <Dependent Role="Employees">
+        <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Positions__Depar__4D94879B">
+    <End Role="Departments" Type="Self.Department" Multiplicity="1" />
+    <End Role="Positions" Type="Self.Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="DepartmentId" />
+      </Principal>
+      <Dependent Role="Positions">
+        <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Employees__Posit__5165187F">
+    <End Role="Positions" Type="Self.Position" Multiplicity="1" />
+    <End Role="Employees" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Positions">
+        <PropertyRef Name="PositionId" />
+      </Principal>
+      <Dependent Role="Employees">
+        <PropertyRef Name="PositionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Departments" EntityType="Self.Department" />
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <EntitySet Name="Positions" EntityType="Self.Position" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK__Employees__Depar__5070F446" Association="Self.FK__Employees__Depar__5070F446">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Employees" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Positions__Depar__4D94879B" Association="Self.FK__Positions__Depar__4D94879B">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Positions" EntitySet="Positions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Employees__Posit__5165187F" Association="Self.FK__Employees__Posit__5165187F">
+      <End Role="Positions" EntitySet="Positions" />
+      <End Role="Employees" EntitySet="Employees" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
